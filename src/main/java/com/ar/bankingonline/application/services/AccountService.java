@@ -60,12 +60,18 @@ public class AccountService {
 
         if(accountCreated.isPresent()){
             Account entity = accountCreated.get();
+            if(account.getAmount()!=null){
+                entity.setAmount(account.getAmount());
+            }
+            if(account.getOwner()!=null){
+                User user = userRepository.getReferenceById(account.getOwner().getId());
+                if (user!=null){
+                    entity.setOwner(user);
+                }
+            }
 
-            Account accountUpdate = AccountMapper.dtoToAccount(account);
 
-            accountUpdate.setId(entity.getId());
-
-            Account saved = repository.save(accountUpdate);
+            Account saved = repository.save(entity);
 
             return AccountMapper.accountToDto(saved);
 
@@ -104,8 +110,4 @@ public class AccountService {
         return  amount;
     }
 
-    public Account getAccountByNumber(int number){
-        //return repository.getByNumber(number);
-        return null;
-    }
 }

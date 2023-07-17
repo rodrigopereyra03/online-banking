@@ -20,8 +20,11 @@ public class AccountMapper {
     public AccountDto accountToDto(Account account){
         AccountDto dto = new AccountDto();
         dto.setAmount(account.getAmount());
-        UserDto userDto = UserMapper.userMapToDto(account.getOwner());
-        dto.setOwner(userDto);
+        if(account.getOwner()!=null){
+            UserDto userDto = UserMapper.userMapToDto(account.getOwner());
+            dto.setOwner(userDto);
+
+        }
         dto.setId(account.getId());
         return dto;
     }
